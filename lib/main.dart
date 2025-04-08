@@ -1,125 +1,150 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const DriveApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DriveApp extends StatelessWidget {
+  const DriveApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      title: 'Drive UI',
+      theme: ThemeData.dark(), // Dark theme for Drive-like look
+      home: const DriveHome(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class DriveHome extends StatelessWidget {
+  const DriveHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      drawer: const DriveDrawer(),
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        title: const TextField(
+          decoration: InputDecoration(
+            hintText: 'Search in Drive',
+            prefixIcon: Icon(Icons.search),
+            border: InputBorder.none,
+          ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: CircleAvatar(
+              backgroundColor: Colors.grey,
+              child: Icon(Icons.person),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.black,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: ListView(
+        padding: const EdgeInsets.all(8),
+        children: const [
+          DriveItem(name: "AR/VR & Development", date: "Sep 4, 2024", icon: Icons.folder),
+          DriveItem(name: "Colab Notebooks", date: "Nov 4, 2023", icon: Icons.folder_copy),
+          DriveItem(name: "CSE - Lec.", date: "Sep 7, 2024", icon: Icons.folder),
+          DriveItem(name: "Development", date: "Dec 25, 2024", icon: Icons.folder),
+          DriveItem(name: "FYDP", date: "Sep 11, 2024", icon: Icons.folder_special),
+          DriveItem(name: "Research", date: "Jul 20, 2023", icon: Icons.folder),
+          DriveItem(name: "TA", date: "Feb 23, 2024", icon: Icons.folder),
+          DriveItem(name: "Zion", date: "May 6, 2023", icon: Icons.folder),
+          DriveItem(name: "Git.pptx", date: "Mar 24", icon: Icons.slideshow),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        currentIndex: 3,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Starred'),
+          BottomNavigationBarItem(icon: Icon(Icons.share), label: 'Shared'),
+          BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'Files'),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.purple,
+        icon: const Icon(Icons.add),
+        label: const Text('New'),
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+class DriveItem extends StatelessWidget {
+  final String name;
+  final String date;
+  final IconData icon;
+
+  const DriveItem({
+    super.key,
+    required this.name,
+    required this.date,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.white),
+      title: Text(name),
+      subtitle: Text('Modified $date'),
+      trailing: const Icon(Icons.more_vert),
+    );
+  }
+}
+
+class DriveDrawer extends StatelessWidget {
+  const DriveDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: Colors.black,
+      child: ListView(
+        children: [
+          const DrawerHeader(
+            child: Text(
+              'Google Drive',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+          const ListTile(leading: Icon(Icons.access_time), title: Text("Recent")),
+          const ListTile(leading: Icon(Icons.dashboard_customize), title: Text("Workspaces")),
+          const ListTile(leading: Icon(Icons.offline_pin), title: Text("Offline")),
+          const ListTile(leading: Icon(Icons.delete), title: Text("Trash")),
+          const ListTile(leading: Icon(Icons.warning), title: Text("Spam")),
+          const ListTile(leading: Icon(Icons.settings), title: Text("Settings")),
+          const ListTile(leading: Icon(Icons.help), title: Text("Help & feedback")),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.cloud),
+            title: const Text("Storage"),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 4),
+                LinearProgressIndicator(
+                  value: 7.44 / 15.0,
+                  color: Colors.purple,
+                  backgroundColor: Colors.grey[800],
+                ),
+                const SizedBox(height: 4),
+                const Text("7.44 GB of 15 GB used", style: TextStyle(fontSize: 12)),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
